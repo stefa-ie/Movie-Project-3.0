@@ -1,12 +1,11 @@
 from istorage import IStorage
 import json
-import os
 from pathlib import Path
 
 class StorageJson(IStorage):
-    def __init__(self, file_path="../storage/movies.json"):
-        """Initializes storage and ensures the storage folder exists."""
-        self.file_path = Path(file_path)  # Convert to Path object
+    def __init__(self, file_path="storage/movies.json"):
+        """ Initializes storage and checks if the storage folder exists. """
+        self.file_path = Path(file_path)
 
         if not self.file_path.exists():
             with open(self.file_path, "w") as fobj:
@@ -16,7 +15,7 @@ class StorageJson(IStorage):
 
 
     def load_storage(self):
-        """Loads the JSON file data into local_data."""
+        """ Loads the JSON file data into local_data. """
         if self.file_path.exists():
             with open(self.file_path, "r") as fobj:
                 return json.load(fobj)
@@ -24,18 +23,18 @@ class StorageJson(IStorage):
 
 
     def save_storage(self):
-        """Saves local_data back to the JSON file."""
+        """ Saves local_data back to JSON file. """
         with open(self.file_path, "w") as fobj:
             json.dump(self.local_data, fobj, indent=4)
 
 
     def list_movies(self):
-        """Prints the list of movies."""
+        """ Prints the list of movies. """
         return self.local_data
 
 
     def add_movie(self, title, year, rating, poster):
-        """Adds a movie to the storage."""
+        """ Adds a movie to the storage. """
         self.local_data[title] = {
             "Year": year,
             "Rating": rating,
@@ -45,7 +44,7 @@ class StorageJson(IStorage):
 
 
     def delete_movie(self, title):
-        """Deletes a movie from storage if it exists."""
+        """ Deletes a movie from storage if it exists. """
         if title in self.local_data:
             del self.local_data[title]
             self.save_storage()
@@ -54,7 +53,7 @@ class StorageJson(IStorage):
 
 
     def update_movie(self, title, rating):
-        """Updates the rating of a movie if it exists."""
+        """ Updates the rating if the movie exists. """
         if title in self.local_data:
             self.local_data[title]["Rating"] = rating
             self.save_storage()
@@ -63,8 +62,9 @@ class StorageJson(IStorage):
 
 
 
-from storage_json import StorageJson
 
-storage = StorageJson('movies.json')
+
+storage = StorageJson('storage/movies.json')
 print(storage.list_movies())
 storage.add_movie("Atonement", 2004, 8.0, "https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p167496_p_v8_am.jpg")
+print(storage.list_movies())
