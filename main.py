@@ -1,16 +1,16 @@
-# This is a sample Python script.
-
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+from movie_app import MovieApp
+from movie_app import MovieApp
+from storage.storage_json import StorageJson
 
 
-# Press the green button in the gutter to run the script.
+# Calling MovieApp.run() to start the application
+def main():
+
+    storage = StorageJson('storage/movies.json')
+    movie_app = MovieApp(storage)
+
+    movie_app.run()
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    main()
