@@ -4,10 +4,12 @@ import random
 
 class MovieApp:
     def __init__(self, storage):
+        """ Initialize the MovieApp with a storage backend. """
         self._storage = storage
 
 
     def _command_list_movies(self):
+        """ Displays a list of all movies stored in the database with their ratings. """
         movies = self._storage.list_movies()
 
         print()
@@ -18,6 +20,10 @@ class MovieApp:
 
 
     def _command_movie_stats(self):
+        """
+        Displays movie statistics including average, median rating,
+        best-rated and worst-rated movies.
+        """
         movies = self._storage.list_movies()
 
         if not movies:
@@ -49,6 +55,7 @@ class MovieApp:
 
 
     def _command_random_movie(self):
+        """ Picks and displays a random movie from the database. """
         movies = self._storage.list_movies()
 
         if not movies:
@@ -63,6 +70,7 @@ class MovieApp:
 
 
     def _command_search_movie(self):
+        """ Searches for movies by partial name (case-insensitive). """
         movies = self._storage.list_movies()
 
         part_movie_name = input("\nEnter part of movie name: ").strip().lower()
@@ -79,6 +87,7 @@ class MovieApp:
 
 
     def _command_movies_ranking(self):
+        """ Displays the ranking of all movies from highest to lowest rating. """
         movies = self._storage.list_movies()
 
         sorted_movies_ranking = sorted(movies.items(), key=lambda item: item[1]['Rating'], reverse=True)
@@ -87,6 +96,7 @@ class MovieApp:
 
 
     def _generate_website(self):
+        """ Generate a static HTML page listing all movies with titles years and posters. """
         movies = self._storage.list_movies()
 
         movies_website_content = ""
@@ -118,6 +128,10 @@ class MovieApp:
 
 
     def run(self):
+        """
+        Starts the main interactive loop of the MovieApp.
+        Presents a menu to the user to choose from various operations.
+        """
         print("********** My Movies Database **********\n")
         while True:
             movies = self._storage.list_movies()
