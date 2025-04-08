@@ -1,6 +1,7 @@
+from app.movie_app import MovieApp
 from movie_app import MovieApp
-from movie_app import MovieApp
-from storage.storage_json import StorageJson
+from storage import StorageJson
+from storage import StorageCsv
 
 
 # Calling MovieApp.run() to start the application

@@ -1,5 +1,15 @@
 import statistics
 import random
+import requests
+from dotenv import load_dotenv
+import os
+
+
+load_dotenv()
+
+api_key = os.getenv("API_KEY")
+URL = f"http://www.omdbapi.com/?apikey={api_key}&t="
+
 
 
 class MovieApp:
@@ -15,8 +25,47 @@ class MovieApp:
         print()
         print(f"{len(movies)} movies in total")
 
-        for movie, details in movies.items():
-            print(f"{movie}: {details['Rating']}")
+        for movie, info in movies.items():
+            print(f"{movie}: {info['Rating']}")
+
+
+    def _command_add_movie(self):
+        """
+        Sends GET request to the OMDb API to fetch movie information based on the provided title.
+        After successful GET request, data is stored to the corresponding file through the add_movie storage method.
+        """
+        user_title = input("Enter new movie name: ").strip()
+
+        if not user_title:
+            print("Didn't find movie  in the API")
+            return
+
+        try:
+            data = requests.get(URL + user_title)
+            data = data.json()
+
+            if data.get("Response") == "False":
+                print(f"Error: {data.get('Error')}")
+                return
+
+            title = data.get("Title")
+            year = int(data.get("Year", 0))
+            rating = float(data.get("imdbRating", 0.0))
+            poster = data.get("Poster")
+
+            self._storage.add_movie(title, year, rating, poster)
+
+            print(f"Movie {title} successfully added")
+
+        except requests.exceptions.ConnectionError:
+            print("Error: no connection to OMDb API!")
+
+
+    def _command_delete_movie(self):
+        """ Deletes data of the specified movie title. """
+
+        movie_to_be_deleted = input("Enter movie name to delete: ")
+        self._storage.delete_movie(movie_to_be_deleted)
 
 
     def _command_movie_stats(self):
@@ -77,9 +126,9 @@ class MovieApp:
 
         found = False
 
-        for movie, details in movies.items():
+        for movie, info in movies.items():
             if part_movie_name in movie.lower():
-                print(f"{movie} ({details['Year']}): {details['Rating']}")
+                print(f"{movie} ({info['Year']}): {info['Rating']}")
                 found = True
 
         if not found:
@@ -91,8 +140,8 @@ class MovieApp:
         movies = self._storage.list_movies()
 
         sorted_movies_ranking = sorted(movies.items(), key=lambda item: item[1]['Rating'], reverse=True)
-        for movie, details in sorted_movies_ranking:
-            print(f"{movie} ({details['Year']}): {details['Rating']}")
+        for movie, info in sorted_movies_ranking:
+            print(f"{movie} ({info['Year']}): {info['Rating']}")
 
 
     def _generate_website(self):
@@ -157,6 +206,12 @@ class MovieApp:
 
             if user_choice == "1":
                 self._command_list_movies()
+                continue_app = input("\nPress enter to continue\n")
+                if continue_app == "":
+                    continue
+
+            if user_choice == "2":
+                self._command_add_movie()
                 continue_app = input("\nPress enter to continue\n")
                 if continue_app == "":
                     continue
