@@ -1,9 +1,9 @@
-from istorage import IStorage
+from storage.istorage import IStorage
 import json
 from pathlib import Path
 
 class StorageJson(IStorage):
-    def __init__(self, file_path="storage/movies.json"):
+    def __init__(self, file_path="storage/db/movies.json"):
         """ Initializes storage and checks if the storage folder exists. """
         self.file_path = Path(file_path)
 
@@ -48,6 +48,7 @@ class StorageJson(IStorage):
         if title in self.local_data:
             del self.local_data[title]
             self.save_storage()
+            print(f"Movie {title} successfully deleted")
         else:
             print(f"Movie '{title}' not found.")
 

@@ -34,7 +34,7 @@ class MovieApp:
         Sends GET request to the OMDb API to fetch movie information based on the provided title.
         After successful GET request, data is stored to the corresponding file through the add_movie storage method.
         """
-        user_title = input("Enter new movie name: ").strip()
+        user_title = input("\nEnter new movie name: ").strip()
 
         if not user_title:
             print("Didn't find movie  in the API")
@@ -64,7 +64,7 @@ class MovieApp:
     def _command_delete_movie(self):
         """ Deletes data of the specified movie title. """
 
-        movie_to_be_deleted = input("Enter movie name to delete: ")
+        movie_to_be_deleted = input("\nEnter movie name to delete: ")
         self._storage.delete_movie(movie_to_be_deleted)
 
 
@@ -212,6 +212,18 @@ class MovieApp:
 
             if user_choice == "2":
                 self._command_add_movie()
+                continue_app = input("\nPress enter to continue\n")
+                if continue_app == "":
+                    continue
+
+            if user_choice == "3":
+                self._command_delete_movie()
+                continue_app = input("\nPress enter to continue\n")
+                if continue_app == "":
+                    continue
+
+            if user_choice == "4":
+                print("Updating not necessary since data is accurate.")
                 continue_app = input("\nPress enter to continue\n")
                 if continue_app == "":
                     continue

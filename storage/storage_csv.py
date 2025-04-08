@@ -6,7 +6,7 @@ import csv
 
 
 class StorageCsv(IStorage):
-    def __init__(self, file_path="storage/movies.csv"):
+    def __init__(self, file_path="storage/db/movies.csv"):
         """ Initializes CSV-storage file and checks if the storage folder exists. """
         self.file_path = Path(file_path)
 
@@ -70,6 +70,7 @@ class StorageCsv(IStorage):
         if title in movies:
             del movies[title]
             self.save_storage(movies)
+            print(f"Movie {title} successfully deleted")
         else:
             print(f"Movie '{title}' not found.")
 

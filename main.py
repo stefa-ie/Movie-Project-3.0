@@ -1,16 +1,18 @@
-from app.movie_app import MovieApp
 from movie_app import MovieApp
-from storage import StorageJson
-from storage import StorageCsv
+from storage.storage_json import StorageJson
+from storage.storage_csv import StorageCsv
 
 
 # Calling MovieApp.run() to start the application
 def main():
 
-    storage = StorageJson('storage/movies.json')
-    movie_app = MovieApp(storage)
+    storage_json = StorageJson('storage/db/movies.json')
+    storage_csv = StorageCsv('storage/db/movies.csv')
 
-    movie_app.run()
+    movie_app_json = MovieApp(storage_json)
+    movie_app_csv = MovieApp(storage_csv)
+
+    movie_app_csv.run()
 
 
 if __name__ == '__main__':
