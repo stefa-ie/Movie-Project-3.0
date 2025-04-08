@@ -29,7 +29,7 @@ class StorageJson(IStorage):
 
 
     def list_movies(self):
-        """ Prints the list of movies. """
+        """ Returns the list of movies from the storage. """
         return self.local_data
 
 
@@ -63,8 +63,3 @@ class StorageJson(IStorage):
 
 
 
-
-storage = StorageJson('movies.json')
-print(storage.list_movies())
-storage.add_movie("Atonement", 2004, 8.0, "https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p167496_p_v8_am.jpg")
-print(storage.list_movies())
