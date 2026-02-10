@@ -166,16 +166,11 @@ class MovieApp:
                 movies_website_content += f"</div>\n"
                 movies_website_content += f"</li>\n"
 
-        with open ("_static/index_template.html", "r") as fobj:
+        with open("_static/index_template.html", "r") as fobj:
             website_content = fobj.read()
 
-        html_content_string = ""
-
-        for line in website_content:
-            html_content_string += f"{line}\n"
-
-        generated_html = html_content_string.replace("__TEMPLATE_TITLE__", "Masterschool's Movie App")
-        generated_html = html_content_string.replace("__TEMPLATE_MOVIE_GRID__", movies_website_content)
+        generated_html = website_content.replace("__TEMPLATE_TITLE__", "Masterschool's Movie App")
+        generated_html = generated_html.replace("__TEMPLATE_MOVIE_GRID__", movies_website_content)
 
         with open("_static/index.html", "w") as fobj:
             fobj.write(generated_html)
