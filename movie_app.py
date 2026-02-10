@@ -49,8 +49,14 @@ class MovieApp:
                 return
 
             title = data.get("Title")
-            year = int(data.get("Year", 0))
-            rating = float(data.get("imdbRating", 0.0))
+            try:
+                year = int(data.get("Year", 0))
+            except (ValueError, TypeError):
+                year = 0
+            try:
+                rating = float(data.get("imdbRating", 0.0))
+            except (ValueError, TypeError):
+                rating = 0.0
             poster = data.get("Poster")
 
             self._storage.add_movie(title, year, rating, poster)
@@ -168,10 +174,11 @@ class MovieApp:
         for line in website_content:
             html_content_string += f"{line}\n"
 
-        html_dynamic_content = html_content_string.replace("__TEMPLATE_MOVIE_GRID__", movies_website_content)
+        generated_html = html_content_string.replace("__TEMPLATE_TITLE__", "Masterschool's Movie App")
+        generated_html = html_content_string.replace("__TEMPLATE_MOVIE_GRID__", movies_website_content)
 
         with open("_static/index.html", "w") as fobj:
-            fobj.write(html_dynamic_content)
+            fobj.write(generated_html)
 
         print("Website created successfully.")
 
@@ -257,7 +264,3 @@ class MovieApp:
                 continue_app = input("\nPress enter to continue\n")
                 if continue_app == "":
                     continue
-
-
-
-
